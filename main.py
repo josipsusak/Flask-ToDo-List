@@ -10,7 +10,7 @@ Bootstrap(app)
 
 # Configure database
 app.config['SECRET_KEY'] = os.environ.get("APP_SECRET_KEY")
-app.config['DATABASE_URI'] = os.environ.get("DATABASE_URI", 'sqlite:///todo_list.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URI", 'sqlite:///todo_list.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app=app)
