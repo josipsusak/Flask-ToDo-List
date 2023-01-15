@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+
+<section class="vh-100">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col">
+                <div class="card" id="list1" style="border-radius: .75rem; background-color: #eff1f2;">
+                    <div class="card-body py-4 px-4 px-md-5">
+
+                        <p class="h1 text-center mt-3 mb-4 pb-3 text-primary">
+                            <i class="fas fa-check-square me-1"></i>
+                            <u>My Todo-s</u>
+                        </p>
+
+                        <form method="post">
+                            <div class="pb-2">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex flex-row align-items-center">
+
+                                            {{ form.todo_text(type="text", class="form-control form-control-lg-3",
+                                            id="todo_text", placeholder="Add new...")}}
+                                            {{ form.due_date(type="date")}}
+                                            {{ form.submit(type="submit", class="btn btn-primary", placeholder="Add") }}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <hr class="my-4">
+
+                        <form>
+                            {% for post in posts %}
+                            <ul class="list-group list-group-horizontal rounded-0">
+                                <li class="list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent">
+
+                                </li>
+                                <li class="list-group-item px-3 py-1 d-flex align-items-center flex-grow-1 border-0 bg-transparent">
+                                    {% if post.finished %}
+                                    <s class="lead fw-normal mb-0">{{post.todo_text}}</s>
+                                    {% else %}
+                                    <p class="lead fw-normal mb-0">{{post.todo_text}}</p>
+                                    {% endif %}
+                                </li>
+                                <li class="list-group-item px-3 py-1 d-flex align-items-center border-0 bg-transparent">
+                                    <div class="py-2 px-3 me-2 border border-warning rounded-3 d-flex align-items-center bg-light">
+                                        <p class="small mb-0">
+                                            <a href="{{ url_for('home') }}" data-mdb-toggle="tooltip" title="Due on date">
+                                                <i class="fas fa-hourglass-half me-2 text-warning"></i>
+                                            </a>
+                                            {{post.due_date}}
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="list-group-item ps-3 pe-0 py-1 rounded-0 border-0 bg-transparent">
+                                    <div class="d-flex flex-row justify-content-end mb-1">
+                                        <a href="{{ url_for('toggle', post_id=post.id)}}"
+                                           data-mdb-toggle="tooltip" aria-label="Done"
+                                           data-mdb-original-title="Done"><i class="fas fa-check fa-lg text-success me-3"></i>
+                                        </a>
+                                        <a href="{{ url_for('delete', post_id=post.id)}}"
+                                           class="text-danger" data-mdb-toggle="tooltip"
+                                           title="Delete todo"><i class="fas fa-trash-alt"></i></a>
+                                    </div>
+                                    <div class="text-end text-muted">
+                                        <a href="{{ url_for('home') }}" class="text-muted" data-mdb-toggle="tooltip" title="Created date">
+                                            <p class="small mb-0"><i class="fas fa-info-circle me-2"></i>
+                                                {{ post.added_date}}
+                                            </p>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                            {% endfor %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
